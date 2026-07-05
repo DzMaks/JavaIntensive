@@ -16,6 +16,8 @@
 
     <modules>
         <module>user-service</module>
+        <module>notification-service</module>
+        <module>common</module>
     </modules>
 
     <properties>
@@ -26,7 +28,6 @@
         <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
 
-    <!-- ✅ ДОБАВЛЯЕМ Spring Boot BOM -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -39,7 +40,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- ✅ ФИКСИРУЕМ Java 17 для Maven -->
     <build>
         <plugins>
             <plugin>

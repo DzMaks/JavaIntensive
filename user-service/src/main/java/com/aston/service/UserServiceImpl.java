@@ -1,8 +1,11 @@
 package com.aston.service;
 
+import com.aston.common.event.EventType;
+import com.aston.common.event.UserEvent;
 import com.aston.dto.UserRequest;
 import com.aston.dto.UserResponse;
 import com.aston.entity.User;
+import com.aston.kafka.producer.UserEventProducer;
 import com.aston.mapper.UserMapper;
 import com.aston.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -14,11 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final UserEventProducer producer;
 
 
-    public UserServiceImpl(UserRepository repository, UserMapper mapper) {
+    public UserServiceImpl(UserRepository repository, UserMapper mapper, UserEventProducer producer) {
         this.repository = repository;
         this.mapper = mapper;
+        this.producer = producer;
     }
 
     @Override
@@ -36,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
         User user = mapper.toEntity(request);
         User saved = repository.save(user);
+        producer.send(new UserEvent(saved.getEmail(), EventType.CREATED));
         return mapper.toResponse(saved);
     }
 
@@ -73,9 +79,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("User not found");
-        }
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         repository.deleteById(id);
+        producer.send(new UserEvent(user.getEmail(), EventType.DELETED));
     }
 }
