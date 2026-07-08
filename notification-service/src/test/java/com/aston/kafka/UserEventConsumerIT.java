@@ -25,25 +25,44 @@ class UserEventConsumerIT {
     private EmailService emailService;
 
     @Test
-    void shouldConsumeKafkaEventAndSendEmail() {
+    void shouldConsumeCreatedEventAndSendCreatedEmail() throws Exception {
 
         String eventJson = """
-        {
-          "email": "kafka@test.com",
-          "event": "CREATED"
-        }
-        """;
+                {
+                  "email": "kafka@test.com",
+                  "event": "CREATED"
+                }
+                """;
 
         kafkaTemplate.send("user-events", eventJson);
 
-        // даём Kafka consumer время обработать сообщение
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        Thread.sleep(1000);
 
         verify(emailService, times(1))
                 .sendCreatedMessage("kafka@test.com");
+
+        verify(emailService, never())
+                .sendDeletedMessage(anyString());
+    }
+
+    @Test
+    void shouldConsumeDeletedEventAndSendDeletedEmail() throws Exception {
+
+        String eventJson = """
+                {
+                  "email": "kafka@test.com",
+                  "event": "DELETED"
+                }
+                """;
+
+        kafkaTemplate.send("user-events", eventJson);
+
+        Thread.sleep(1000);
+
+        verify(emailService, times(1))
+                .sendDeletedMessage("kafka@test.com");
+
+        verify(emailService, never())
+                .sendCreatedMessage(anyString());
     }
 }
