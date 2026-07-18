@@ -22,8 +22,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService service;
+
     private final UserModelAssembler assembler;
 
     public UserController(UserService service,
@@ -46,6 +46,13 @@ public class UserController {
                 linkTo(methodOn(UserController.class).getAll()).withSelfRel(),
                 linkTo(methodOn(UserController.class).create(null)).withRel("create")
         );
+    }
+
+    @GetMapping("/internal/{id}")
+    public UserResponse getInternal(
+            @PathVariable("id") Long id
+    ) {
+        return service.getById(id);
     }
 
     @Operation(summary = "Получить пользователя по id")
@@ -99,4 +106,5 @@ public class UserController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }
