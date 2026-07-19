@@ -46,10 +46,11 @@ public class DocumentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
 
         service.delete(id);
 
         return ResponseEntity.noContent().build();
     }
+
 }

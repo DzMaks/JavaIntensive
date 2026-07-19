@@ -13,7 +13,6 @@
     <artifactId>common</artifactId>
 
     <dependencies>
-        <!-- ничего кроме POJO не нужно -->
     </dependencies>
 
     <build>

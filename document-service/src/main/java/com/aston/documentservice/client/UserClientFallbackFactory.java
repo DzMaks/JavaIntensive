@@ -14,27 +14,19 @@ public class UserClientFallbackFactory implements FallbackFactory<UserClient> {
 
     @Override
     public UserClient create(Throwable cause) {
-
-
         return new UserClient() {
-
-
             @Override
             public UserResponse getUser(Long id) {
-
-
                 if (cause instanceof UserNotFoundException) {
-
                     throw new UserNotFoundException(
                             "User not found"
                     );
                 }
-
-
                 throw new UserServiceUnavailableException(
                         "User service is temporarily unavailable"
                 );
             }
         };
     }
+
 }

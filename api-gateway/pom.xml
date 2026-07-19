@@ -6,44 +6,34 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-
 	<parent>
 		<groupId>com.aston</groupId>
 		<artifactId>user-platform</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-
 	<artifactId>api-gateway</artifactId>
 
 	<name>api-gateway</name>
 	<description>API Gateway service</description>
 
-
 	<dependencies>
 
-		<!-- Spring Cloud Gateway -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
 
-
-		<!-- Eureka Client -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-
-		<!-- Actuator для health check -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
-
-		<!-- Тесты -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -57,15 +47,12 @@
 
 	</dependencies>
 
-
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
 		</plugins>
 	</build>
 

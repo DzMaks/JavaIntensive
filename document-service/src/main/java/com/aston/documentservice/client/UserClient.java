@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
         fallbackFactory = UserClientFallbackFactory.class
 )
 public interface UserClient {
-
-
     @GetMapping("/users/internal/{id}")
     UserResponse getUser(
             @PathVariable("id") Long id
