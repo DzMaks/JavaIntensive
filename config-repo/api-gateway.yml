@@ -22,6 +22,12 @@ spring:
             - Path=/notifications/**
 
 
+        - id: document-service
+          uri: lb://DOCUMENT-SERVICE
+          predicates:
+            - Path=/documents/**
+
+
 
 eureka:
   client:
